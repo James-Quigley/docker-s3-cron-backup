@@ -19,7 +19,7 @@ else
     echo "TARGET env var is set"
 fi
 
-sqlite3 $TARGET/db.sqlite3 '.backup' $DESTINATION/db.sqlite3
+sqlite3 $TARGET/db.sqlite3 ".backup '$DESTINATION/db.sqlite3'"
 
 if [[ -d $TARGET/attachments ]]; then
     cp -r $TARGET/attachments $DESTINATION
