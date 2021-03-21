@@ -4,7 +4,7 @@
 S3_STORAGE_CLASS=${S3_STORAGE_CLASS:-STANDARD}
 
 # generate file name for tar
-FILE_NAME=/tmp/$BACKUP_NAME-`date "+%Y-%m-%d_%H-%M-%S"`.tar.gz
+FILE_NAME=/tmp/${BACKUP_NAME:-bitwarden}-`date "+%Y-%m-%d_%H-%M-%S"`.tar.gz
 
 DESTINATION=/tmp/bitwarden
 
