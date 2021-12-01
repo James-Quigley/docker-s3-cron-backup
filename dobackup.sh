@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -exo pipefail
+
 # default storage class to standard if not provided
 S3_STORAGE_CLASS=${S3_STORAGE_CLASS:-STANDARD}
 
@@ -13,10 +15,10 @@ mkdir -p $DESTINATION
 # Check if TARGET variable is set
 if [[ -z ${TARGET} ]];
 then
-    echo "TARGET env var is not set so we use the default value (/data)"
+    echo $(date -u) "TARGET env var is not set so we use the default value (/data)"
     TARGET=/data
 else
-    echo "TARGET env var is set"
+    echo $(date -u) "TARGET env var is set to ${TARGET}"
 fi
 
 sqlite3 $TARGET/db.sqlite3 ".backup '$DESTINATION/db.sqlite3'"
@@ -31,11 +33,11 @@ fi
 
 cp $TARGET/rsa_key* $DESTINATION
 
-echo "creating archive"
+echo $(date -u) "creating archive"
 tar -zcvf $FILE_NAME $DESTINATION
-echo "uploading archive to S3 [$FILE_NAME, storage class - $S3_STORAGE_CLASS]"
+echo $(date -u) "uploading archive to S3 [$FILE_NAME, storage class - $S3_STORAGE_CLASS]"
 aws s3 cp --storage-class $S3_STORAGE_CLASS $FILE_NAME $S3_BUCKET_URL
-echo "removing local archive"
+echo $(date -u) "removing local archive"
 rm $FILE_NAME
 rm -rf $DESTINATION
-echo "done"
+echo $(date -u) "done"
